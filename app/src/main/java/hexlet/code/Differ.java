@@ -7,9 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.StringJoiner;
 
 public class Differ {
@@ -49,11 +50,11 @@ public class Differ {
     }
 
     // Returns String that contains differences of two maps
-    public static String getDiffs(Map<String, Object> map1, Map<String, Object> map2) {
+    public static Map<String, Object> getDiffsMap(Map<String, Object> map1, Map<String, Object> map2) {
 
         List<String> allKeys = getSortedKeysFromMaps(map1, map2);
 
-        StringJoiner sj = new StringJoiner("\n  ", "{\n  ", "\n}");
+        Map<String, Object> diffsMap = new LinkedHashMap<>();
 
         for (String key: allKeys) {
             var firstMapHasKey = map1.containsKey(key);
@@ -64,15 +65,32 @@ public class Differ {
             Object value2 = map2.get(key);
 
             if (bothMapsHaveKey && value1.equals(value2)) {
-                sj.add(NOT_CHANGED_SYMBOL + " " + key + ": " + value2);
+                var newKey = NOT_CHANGED_SYMBOL + " " + key;
+                diffsMap.put(newKey, value1);
+
             } else if (bothMapsHaveKey && !value1.equals(value2)) {
-                sj.add(DELETED_SYMBOL + " " + key + ": " + value1);
-                sj.add(ADDED_SYMBOL + " " + key + ": " + value2);
+                var newKey1 = DELETED_SYMBOL + " " + key;
+                var newKey2 = ADDED_SYMBOL + " " + key;
+                diffsMap.put(newKey1, value1);
+                diffsMap.put(newKey2, value2);
+
             } else {
                 String symbol = firstMapHasKey ? DELETED_SYMBOL : ADDED_SYMBOL;
+                var newKey = symbol + " " + key;
                 var value = firstMapHasKey ? value1 : value2;
-                sj.add(symbol + " " + key + ": " + value);
+                diffsMap.put(newKey, value);
             }
+        }
+
+        return diffsMap;
+    }
+
+    // Returns String of differences
+    public static String diffsToString(Map<String, Object> diffsMap) {
+        StringJoiner sj = new StringJoiner("\n  ", "{\n  ", "\n}");
+
+        for (Map.Entry<String, Object> entry: diffsMap.entrySet()) {
+            sj.add(entry.getKey() + ": " + entry.getValue());
         }
 
         return sj.toString();
@@ -84,6 +102,7 @@ public class Differ {
         Map<String, Object> fileContent1 = getJsonMap(fileName1);
         Map<String, Object> fileContent2 = getJsonMap(fileName2);
 
-        return getDiffs(fileContent1, fileContent2);
+        Map<String, Object> diffsMap = getDiffsMap(fileContent1, fileContent2);
+        return diffsToString(diffsMap);
     }
 }
