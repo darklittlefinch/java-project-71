@@ -1,8 +1,8 @@
 package hexlet.code;
 
-//import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class Differ {
-//    private static final String FILEPATH_1 = "src/main/resources/files/file1.json";
-//    private static final String FILEPATH_2 = "src/main/resources/files/file2.json";
 
     private static final String NOT_CHANGED_SYMBOL = " ";
     private static final String ADDED_SYMBOL = "+";
@@ -26,13 +24,13 @@ public class Differ {
     }
 
     // Returns content of specified file
-    public static String readFile(String fileName) throws Exception {
+    public static String readFile(String fileName) throws IOException {
         Path filePath = getPath(fileName);
         return Files.readString(filePath);
     }
 
     // Returns Map from specified JSON file
-    public static Map<String, Object> getJsonMap(String fileName) throws Exception {
+    public static Map<String, Object> getJsonMap(String fileName) throws IOException {
         String file = readFile(fileName);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -81,7 +79,7 @@ public class Differ {
     }
 
     // Returns differences of two JSON files
-    public static String generate(String fileName1, String fileName2) throws Exception {
+    public static String generate(String fileName1, String fileName2) throws IOException {
 
         Map<String, Object> fileContent1 = getJsonMap(fileName1);
         Map<String, Object> fileContent2 = getJsonMap(fileName2);
