@@ -3,6 +3,8 @@ plugins {
     id 'checkstyle'
     id 'se.patrikerdes.use-latest-versions' version '0.2.18'
     id 'com.github.ben-manes.versions' version '0.47.0'
+    id 'jacoco'
+    id 'com.adarshr.test-logger' version '3.2.0'
 }
 
 group = 'hexlet.code'
@@ -24,6 +26,7 @@ test {
     useJUnitPlatform()
 }
 
+
 application {
     mainClass = "hexlet.code.App"
 }
@@ -31,3 +34,14 @@ application {
 compileJava {
     options.release = 17
 }
+
+testlogger {
+    theme 'mocha'
+    showStandardStreams true
+}
+
+//jacocoTestReport {
+//    reports {
+//        xml.required = true
+//    }
+//}
