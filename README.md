@@ -4,4 +4,4 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6006c9bafc8e4166b302/test_coverage)](https://codeclimate.com/github/darklittlefinch/java-project-71/test_coverage)
 
 ### Demonstration
-[![asciicast](https://asciinema.org/a/FM9UN2gUrvLKqaEG3XqTuKerT.svg)(https://asciinema.org/a/FM9UN2gUrvLKqaEG3XqTuKerT)
+[![asciicast](https://asciinema.org/a/FM9UN2gUrvLKqaEG3XqTuKerT.svg)](https://asciinema.org/a/FM9UN2gUrvLKqaEG3XqTuKerT)
