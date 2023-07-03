@@ -4,5 +4,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/6006c9bafc8e4166b302/maintainability)](https://codeclimate.com/github/darklittlefinch/java-project-71/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6006c9bafc8e4166b302/test_coverage)](https://codeclimate.com/github/darklittlefinch/java-project-71/test_coverage)
 
-### Demonstration
+### First rec
 [![asciicast](https://asciinema.org/a/FM9UN2gUrvLKqaEG3XqTuKerT.svg)](https://asciinema.org/a/FM9UN2gUrvLKqaEG3XqTuKerT)
+
+### Second rec
+[![asciicast](https://asciinema.org/a/LXavG1x4urRFI2B8WFxXZ6O0Q.svg)](https://asciinema.org/a/LXavG1x4urRFI2B8WFxXZ6O0Q)
