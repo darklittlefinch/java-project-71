@@ -7,8 +7,8 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 public class DifferTest {
 
-    private static final String FILEPATH_1 = "/home/finch/java-project-71/app/src/main/resources/files/file1.json";
-    private static final String FILEPATH_2 = "/home/finch/java-project-71/app/src/main/resources/files/file2.json";
+    private static final String FILEPATH_1 = "src/main/resources/files/file1.json";
+    private static final String FILEPATH_2 = "src/main/resources/files/file2.json";
     private static final String WRONG_PATH = "123";
 
     @Test
