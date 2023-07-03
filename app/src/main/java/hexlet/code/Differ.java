@@ -1,11 +1,6 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import java.util.List;
 import java.util.Map;
@@ -13,40 +8,32 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.StringJoiner;
 
-public class Differ {
+import hexlet.code.Parser;
 
+public class Differ {
     private static final String NOT_CHANGED_SYMBOL = " ";
     private static final String ADDED_SYMBOL = "+";
     private static final String DELETED_SYMBOL = "-";
 
-    // Returns path of specified file
-    public static Path getPath(String fileName) {
-        return Paths.get(fileName).toAbsolutePath().normalize();
+    // Returns differences of two JSON files
+    public static String generate(String fileName1, String fileName2) throws IOException {
+
+        Map<String, Object> fileContent1 = Parser.parse(fileName1);
+        Map<String, Object> fileContent2 = Parser.parse(fileName2);
+
+        Map<String, Object> diffsMap = getDiffsMap(fileContent1, fileContent2);
+        return diffsToString(diffsMap);
     }
 
-    // Returns content of specified file
-    public static String readFile(String fileName) throws IOException {
-        Path filePath = getPath(fileName);
-        return Files.readString(filePath);
-    }
+    // Returns String of differences
+    public static String diffsToString(Map<String, Object> diffsMap) {
+        StringJoiner sj = new StringJoiner("\n  ", "{\n  ", "\n}");
 
-    // Returns Map from specified JSON file
-    public static Map<String, Object> getJsonMap(String fileName) throws IOException {
-        String file = readFile(fileName);
+        for (Map.Entry<String, Object> entry: diffsMap.entrySet()) {
+            sj.add(entry.getKey() + ": " + entry.getValue());
+        }
 
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(file, Map.class);
-    }
-
-    // Returns sorted List of keys from two Maps
-    public static List<String> getSortedKeysFromMaps(Map<String, Object> map1, Map<String, Object> map2) {
-        Map<String, Object> allKeys = new HashMap<>();
-        allKeys.putAll(map1);
-        allKeys.putAll(map2);
-
-        return allKeys.keySet().stream()
-                .sorted()
-                .toList();
+        return sj.toString();
     }
 
     // Returns String that contains differences of two maps
@@ -85,24 +72,14 @@ public class Differ {
         return diffsMap;
     }
 
-    // Returns String of differences
-    public static String diffsToString(Map<String, Object> diffsMap) {
-        StringJoiner sj = new StringJoiner("\n  ", "{\n  ", "\n}");
+    // Returns sorted List of keys from two Maps
+    public static List<String> getSortedKeysFromMaps(Map<String, Object> map1, Map<String, Object> map2) {
+        Map<String, Object> allKeys = new HashMap<>();
+        allKeys.putAll(map1);
+        allKeys.putAll(map2);
 
-        for (Map.Entry<String, Object> entry: diffsMap.entrySet()) {
-            sj.add(entry.getKey() + ": " + entry.getValue());
-        }
-
-        return sj.toString();
-    }
-
-    // Returns differences of two JSON files
-    public static String generate(String fileName1, String fileName2) throws IOException {
-
-        Map<String, Object> fileContent1 = getJsonMap(fileName1);
-        Map<String, Object> fileContent2 = getJsonMap(fileName2);
-
-        Map<String, Object> diffsMap = getDiffsMap(fileContent1, fileContent2);
-        return diffsToString(diffsMap);
+        return allKeys.keySet().stream()
+                .sorted()
+                .toList();
     }
 }
