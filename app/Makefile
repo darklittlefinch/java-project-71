@@ -4,8 +4,11 @@ run-dist:
 help:
 	./build/install/app/bin/app -h
 
-compare:
-	./build/install/app/bin/app /home/finch/java-project-71/app/src/main/resources/files/file1.json /home/finch/java-project-71/app/src/main/resources/files/file2.json
+compare-json:
+	./build/install/app/bin/app src/test/resources/files/file1.json src/test/resources/files/file2.json
+
+compare-yaml:
+	./build/install/app/bin/app src/test/resources/files/file1.yml src/test/resources/files/file2.yml
 
 build:
 	./gradlew clean build
