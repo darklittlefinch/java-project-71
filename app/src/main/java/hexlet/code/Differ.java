@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.StringJoiner;
 
-import hexlet.code.Parser;
-
 public class Differ {
     private static final String NOT_CHANGED_SYMBOL = " ";
     private static final String ADDED_SYMBOL = "+";
