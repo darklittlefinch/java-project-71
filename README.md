@@ -12,3 +12,6 @@
 
 ### Third rec
 [![asciicast](https://asciinema.org/a/ZceSWuNR6MHzofzgefu8yhmG8.svg)](https://asciinema.org/a/ZceSWuNR6MHzofzgefu8yhmG8)
+
+### Fourth rec
+[![asciicast](https://asciinema.org/a/hQEuEZDHTDSPQLBCQLB3X1LpJ.svg)](https://asciinema.org/a/hQEuEZDHTDSPQLBCQLB3X1LpJ)
