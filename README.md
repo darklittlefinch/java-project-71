@@ -9,3 +9,6 @@
 
 ### Second rec
 [![asciicast](https://asciinema.org/a/LXavG1x4urRFI2B8WFxXZ6O0Q.svg)](https://asciinema.org/a/LXavG1x4urRFI2B8WFxXZ6O0Q)
+
+### Third rec
+[![asciicast](https://asciinema.org/a/ax7XfQi17jyVgNVh5R4OSBM0v.svg)](https://asciinema.org/a/ax7XfQi17jyVgNVh5R4OSBM0v)
