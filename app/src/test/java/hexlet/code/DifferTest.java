@@ -44,7 +44,7 @@ public class DifferTest {
                   + setting3: none
                 }""";
 
-        String actual1 = Differ.generate(FILEPATH_1, FILEPATH_2, FORMAT_STYLISH);
+        String actual1 = Differ.generate(FORMAT_STYLISH, FILEPATH_1, FILEPATH_2);
         assertThat(actual1).isEqualTo(expected);
     }
 
@@ -77,14 +77,14 @@ public class DifferTest {
                   + setting3: none
                 }""";
 
-        String actual2 = Differ.generate(FILEPATH_3, FILEPATH_4, FORMAT_STYLISH);
+        String actual2 = Differ.generate(FORMAT_STYLISH, FILEPATH_3, FILEPATH_4);
         assertThat(actual2).isEqualTo(expected);
     }
 
     @Test
     public void testGenerateWrongPath() {
         var thrown = catchThrowable(
-                () -> Differ.generate(WRONG_PATH, WRONG_PATH, FORMAT_STYLISH)
+                () -> Differ.generate(FORMAT_STYLISH, WRONG_PATH, WRONG_PATH)
         );
 
         assertThat(thrown).isInstanceOf(IOException.class);
