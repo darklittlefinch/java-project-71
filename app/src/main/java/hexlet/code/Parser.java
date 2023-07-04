@@ -31,6 +31,7 @@ public class Parser {
         return mapper.readValue(file, Map.class);
     }
 
+    // Returns Map from specified YAML file
     public static Map<String, Object> parseYaml(String fileName) throws IOException {
         String file = readFile(fileName);
 
