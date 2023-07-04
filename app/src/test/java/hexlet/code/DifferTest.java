@@ -14,9 +14,10 @@ public class DifferTest {
     private static final String WRONG_PATH = "123";
 
     private static final String FORMAT_STYLISH = "stylish";
+    private static final String FORMAT_PLAIN = "plain";
 
     @Test
-    public void testGenerateJson() throws IOException {
+    public void testGenerateJsonStylish() throws IOException {
         String expected = """
                 {
                     chars1: [a, b, c]
@@ -44,12 +45,12 @@ public class DifferTest {
                   + setting3: none
                 }""";
 
-        String actual1 = Differ.generate(FORMAT_STYLISH, FILEPATH_1, FILEPATH_2);
-        assertThat(actual1).isEqualTo(expected);
+        String actual = Differ.generate(FILEPATH_1, FILEPATH_2, FORMAT_STYLISH);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    public void testGenerateYml() throws IOException {
+    public void testGenerateYmlStylish() throws IOException {
         String expected = """
                 {
                     chars1: [a, b, c]
@@ -77,14 +78,56 @@ public class DifferTest {
                   + setting3: none
                 }""";
 
-        String actual2 = Differ.generate(FORMAT_STYLISH, FILEPATH_3, FILEPATH_4);
-        assertThat(actual2).isEqualTo(expected);
+        String actual = Differ.generate(FILEPATH_3, FILEPATH_4, FORMAT_STYLISH);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGenerateJsonPlain() throws IOException {
+        String expected = """
+                Property 'chars2' was updated. From [complex value] to false
+                Property 'checked' was updated. From false to true
+                Property 'default' was updated. From null to [complex value]
+                Property 'id' was updated. From 45 to null
+                Property 'key1' was removed
+                Property 'key2' was added with value: 'value2'
+                Property 'numbers2' was updated. From [complex value] to [complex value]
+                Property 'numbers3' was removed
+                Property 'numbers4' was added with value: [complex value]
+                Property 'obj1' was added with value: [complex value]
+                Property 'setting1' was updated. From 'Some value' to 'Another value'
+                Property 'setting2' was updated. From 200 to 300
+                Property 'setting3' was updated. From true to 'none'""";
+
+        String actual = Differ.generate(FILEPATH_1, FILEPATH_2, FORMAT_PLAIN);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGenerateYmlPlain() throws IOException {
+        String expected = """
+                Property 'chars2' was updated. From [complex value] to false
+                Property 'checked' was updated. From false to true
+                Property 'default' was updated. From null to [complex value]
+                Property 'id' was updated. From 45 to null
+                Property 'key1' was removed
+                Property 'key2' was added with value: 'value2'
+                Property 'numbers2' was updated. From [complex value] to [complex value]
+                Property 'numbers3' was removed
+                Property 'numbers4' was added with value: [complex value]
+                Property 'obj1' was added with value: [complex value]
+                Property 'setting1' was updated. From 'Some value' to 'Another value'
+                Property 'setting2' was updated. From 200 to 300
+                Property 'setting3' was updated. From true to 'none'""";
+
+        String actual = Differ.generate(FILEPATH_3, FILEPATH_4, FORMAT_PLAIN);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     public void testGenerateWrongPath() {
         var thrown = catchThrowable(
-                () -> Differ.generate(FORMAT_STYLISH, WRONG_PATH, WRONG_PATH)
+                () -> Differ.generate(WRONG_PATH, WRONG_PATH, FORMAT_STYLISH)
         );
 
         assertThat(thrown).isInstanceOf(IOException.class);
