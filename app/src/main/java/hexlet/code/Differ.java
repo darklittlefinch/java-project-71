@@ -15,7 +15,7 @@ public class Differ {
     public static final String STATUS_ADDED = "added";
 
     // Returns differences of two JSON files
-    public static String generate(String format, String fileName1, String fileName2) throws IOException {
+    public static String generate(String fileName1, String fileName2, String format) throws IOException {
 
         Map<String, Object> fileContent1 = Parser.parse(fileName1);
         Map<String, Object> fileContent2 = Parser.parse(fileName2);
