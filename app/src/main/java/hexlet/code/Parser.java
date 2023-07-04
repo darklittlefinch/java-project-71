@@ -12,11 +12,16 @@ import java.util.Map;
 
 public class Parser {
 
-    // return parsed file
+    // Supported extensions
+    private static final String JSON = ".json";
+    private static final String YAML = ".yaml";
+    private static final String YML = ".yml";
+
+    // Return parsed file
     public static Map<String, Object> parse(String fileName) throws IOException {
-        if (fileName.endsWith(".json")) {
+        if (fileName.endsWith(JSON)) {
             return parseJson(fileName);
-        } else if (fileName.endsWith(".yml") || fileName.endsWith(".yaml")) {
+        } else if (fileName.endsWith(YML) || fileName.endsWith(YAML)) {
             return parseYaml(fileName);
         } else {
             throw new IOException("Unsupported extension");
