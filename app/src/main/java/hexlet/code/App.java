@@ -18,7 +18,8 @@ public class App implements Callable<String> {
     @Parameters(index = "1", description = "path to second file")
     private String filepath2;
 
-    @Option(names = {"-f", "--format"}, description = "output format [default: stylish]")
+    @Option(names = {"-f", "--format"}, defaultValue = "stylish",
+            description = "output format [default: ${DEFAULT-VALUE}]")
     String format;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "Shows this help message and exit.")
@@ -29,7 +30,7 @@ public class App implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-        String difference = Differ.generate(filepath1, filepath2);
+        String difference = Differ.generate(filepath1, filepath2, format);
         System.out.println(difference);
         return difference;
     }

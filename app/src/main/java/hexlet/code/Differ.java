@@ -6,68 +6,57 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.StringJoiner;
 
 public class Differ {
-    private static final String NOT_CHANGED_SYMBOL = " ";
-    private static final String ADDED_SYMBOL = "+";
-    private static final String DELETED_SYMBOL = "-";
+
+    public static final String STATUS_NOT_CHANGED = "not changed";
+    public static final String STATUS_CHANGED = "changed";
+    public static final String STATUS_DELETED = "deleted";
+    public static final String STATUS_ADDED = "added";
 
     // Returns differences of two JSON files
-    public static String generate(String fileName1, String fileName2) throws IOException {
+    public static String generate(String format, String fileName1, String fileName2) throws IOException {
 
         Map<String, Object> fileContent1 = Parser.parse(fileName1);
         Map<String, Object> fileContent2 = Parser.parse(fileName2);
 
-        Map<String, Object> diffsMap = getDiffsMap(fileContent1, fileContent2);
-        return diffsToString(diffsMap);
+        Map<String, String> diffMap = genDiff(fileContent1, fileContent2);
+        return Formatter.format(fileContent1, fileContent2, diffMap, format);
     }
 
-    // Returns String of differences
-    public static String diffsToString(Map<String, Object> diffsMap) {
-        StringJoiner sj = new StringJoiner("\n  ", "{\n  ", "\n}");
+    // Returns Map of differences status
+    public static Map<String, String> genDiff(Map<String, Object> map1, Map<String, Object> map2) {
 
-        for (Map.Entry<String, Object> entry: diffsMap.entrySet()) {
-            sj.add(entry.getKey() + ": " + entry.getValue());
-        }
+        List<String> allKeysSorted = getSortedKeysFromMaps(map1, map2);
+        Map<String, String> diffMap = new LinkedHashMap<>();
 
-        return sj.toString();
-    }
+        for (String key: allKeysSorted) {
 
-    // Returns String that contains differences of two maps
-    public static Map<String, Object> getDiffsMap(Map<String, Object> map1, Map<String, Object> map2) {
+            Object value1 = map1.getOrDefault(key, "This map doesn't have value with specified key");
+            Object value2 = map2.getOrDefault(key, "This map doesn't have value with specified key");
 
-        List<String> allKeys = getSortedKeysFromMaps(map1, map2);
+            var bothMapsHaveKey = map1.containsKey(key) && map2.containsKey(key);
 
-        Map<String, Object> diffsMap = new LinkedHashMap<>();
+            var mapHasNull = value1 == null || value2 == null;
+            var bothAreNull = value1 == null && value2 == null;
 
-        for (String key: allKeys) {
-            var firstMapHasKey = map1.containsKey(key);
-            var secondMapHasKey = map2.containsKey(key);
-            var bothMapsHaveKey = firstMapHasKey && secondMapHasKey;
-
-            Object value1 = map1.get(key);
-            Object value2 = map2.get(key);
-
-            if (bothMapsHaveKey && value1.equals(value2)) {
-                var newKey = NOT_CHANGED_SYMBOL + " " + key;
-                diffsMap.put(newKey, value1);
-
-            } else if (bothMapsHaveKey && !value1.equals(value2)) {
-                var newKey1 = DELETED_SYMBOL + " " + key;
-                var newKey2 = ADDED_SYMBOL + " " + key;
-                diffsMap.put(newKey1, value1);
-                diffsMap.put(newKey2, value2);
-
+            if (mapHasNull) {
+                if (bothAreNull) {
+                    diffMap.put(key, STATUS_NOT_CHANGED);
+                } else {
+                    diffMap.put(key, STATUS_CHANGED);
+                }
+            } else if (bothMapsHaveKey && value1.equals(value2)) {
+                diffMap.put(key, STATUS_NOT_CHANGED);
+            } else if (bothMapsHaveKey) {
+                diffMap.put(key, STATUS_CHANGED);
             } else {
-                String symbol = firstMapHasKey ? DELETED_SYMBOL : ADDED_SYMBOL;
-                var newKey = symbol + " " + key;
-                var value = firstMapHasKey ? value1 : value2;
-                diffsMap.put(newKey, value);
+                diffMap.put(key, map1.containsKey(key) ? STATUS_DELETED : STATUS_ADDED);
             }
+
         }
 
-        return diffsMap;
+        return diffMap;
     }
 
     // Returns sorted List of keys from two Maps
