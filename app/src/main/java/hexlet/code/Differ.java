@@ -24,6 +24,10 @@ public class Differ {
         return Formatter.format(fileContent1, fileContent2, diffMap, format);
     }
 
+    public static String generate(String fileName1, String fileName2) throws IOException {
+        return generate(fileName1, fileName2, Formatter.FORMAT_STYLISH);
+    }
+
     // Returns Map of differences status
     public static Map<String, String> genDiff(Map<String, Object> map1, Map<String, Object> map2) {
 
