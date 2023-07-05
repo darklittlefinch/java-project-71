@@ -5,8 +5,6 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-import hexlet.code.Formatter;
-
 public class DifferTest {
 
     private static final String FILEPATH_1 = "src/test/resources/files/file1.json";
