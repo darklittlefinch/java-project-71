@@ -9,9 +9,9 @@ import hexlet.code.formatters.Json;
 
 public class Formatter {
 
-    private static final String FORMAT_STYLISH = "stylish";
-    private static final String FORMAT_PLAIN = "plain";
-    private static final String FORMAT_JSON = "json";
+    public static final String FORMAT_STYLISH = "stylish";
+    public static final String FORMAT_PLAIN = "plain";
+    public static final String FORMAT_JSON = "json";
 
     // Returns String of differences
     public static String format(Map<String, Object> map1, Map<String, Object> map2,
