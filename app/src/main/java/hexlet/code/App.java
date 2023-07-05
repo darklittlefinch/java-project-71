@@ -20,16 +20,16 @@ public class App implements Callable<String> {
 
     @Option(names = {"-f", "--format"}, defaultValue = "stylish",
             description = "output format [default: ${DEFAULT-VALUE}]")
-    String format;
+    private String format;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "Shows this help message and exit.")
-    boolean usageHelpRequested;
+    private boolean usageHelpRequested;
 
     @Option(names = {"-V", "--version"}, versionHelp = true, description = "Print version information and exit.")
-    boolean versionInfoRequested;
+    private boolean versionInfoRequested;
 
     @Override
-    public String call() throws Exception {
+    public final String call() throws Exception {
         String difference = Differ.generate(filepath1, filepath2, format);
         System.out.println(difference);
         return difference;
