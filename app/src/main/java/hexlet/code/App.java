@@ -22,12 +22,6 @@ public class App implements Callable<String> {
             description = "output format [default: ${DEFAULT-VALUE}]")
     private String format;
 
-    @Option(names = {"-h", "--help"}, usageHelp = true, description = "Shows this help message and exit.")
-    private boolean usageHelpRequested;
-
-    @Option(names = {"-V", "--version"}, versionHelp = true, description = "Print version information and exit.")
-    private boolean versionInfoRequested;
-
     @Override
     public final String call() throws Exception {
         String difference = Differ.generate(filepath1, filepath2, format);
