@@ -1,10 +1,12 @@
 package hexlet.code.formatters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.Differ;
+
+import hexlet.code.DiffTree;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Json {
@@ -12,45 +14,46 @@ public class Json {
     private static final String SYMBOL_ADDED = "+";
     private static final String SYMBOL_DELETED = "-";
 
-    public static String json(Map<String, Object> map1, Map<String, Object> map2,
-                              Map<String, String> diffMap) throws IOException {
+    public static String json(List<Map<String, Object>> diff) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> mapOfDiffs = getMapOfDiffs(map1, map2, diffMap);
+        Map<String, String> mapOfDiffs = getMapOfDiffs(diff);
         return mapper.writeValueAsString(mapOfDiffs);
     }
 
-    public static Map<String, String> getMapOfDiffs(Map<String, Object> map1, Map<String, Object> map2,
-                                                 Map<String, String> diffMap) throws IOException {
+    public static Map<String, String> getMapOfDiffs(List<Map<String, Object>> diff) throws IOException {
 
         Map<String, String> mapOfDiffs = new LinkedHashMap<>();
 
-        for (Map.Entry<String, String> entry: diffMap.entrySet()) {
-            var key = entry.getKey();
-            var status = entry.getValue();
+        for (Map<String, Object> map: diff) {
+
+            var status = map.get(DiffTree.KEY_STATUS).toString();
+            var key = map.get(DiffTree.KEY_NAME).toString();
+            var value1 = map.get(DiffTree.KEY_VALUE1);
+            var value2 = map.get(DiffTree.KEY_VALUE2);
 
             switch (status) {
-                case Differ.STATUS_NOT_CHANGED -> {
-                    var value = toStringValue(map1.get(key));
+                case DiffTree.STATUS_NOT_CHANGED -> {
+                    var value = toStringValue(value1);
                     mapOfDiffs.put(key, value);
                 }
-                case Differ.STATUS_CHANGED -> {
+                case DiffTree.STATUS_CHANGED -> {
                     var deletedKey = SYMBOL_DELETED + " " + key;
-                    var deletedValue = toStringValue(map1.get(key));
+                    var deletedValue = toStringValue(value1);
                     mapOfDiffs.put(deletedKey, deletedValue);
 
                     var addedKey = SYMBOL_ADDED + " " + key;
-                    var addedValue = toStringValue(map2.get(key));
+                    var addedValue = toStringValue(value2);
                     mapOfDiffs.put(addedKey, addedValue);
                 }
-                case Differ.STATUS_DELETED -> {
+                case DiffTree.STATUS_DELETED -> {
                     var deletedKey = SYMBOL_DELETED + " " + key;
-                    var deletedValue = toStringValue(map1.get(key));
+                    var deletedValue = toStringValue(value1);
                     mapOfDiffs.put(deletedKey, deletedValue);
                 }
-                case Differ.STATUS_ADDED -> {
+                case DiffTree.STATUS_ADDED -> {
                     var addedKey = SYMBOL_ADDED + " " + key;
-                    var addedValue = toStringValue(map2.get(key));
+                    var addedValue = toStringValue(value1);
                     mapOfDiffs.put(addedKey, addedValue);
                 }
                 default -> throw new IOException("Unsupported status");

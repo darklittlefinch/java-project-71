@@ -1,36 +1,39 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Differ;
+import hexlet.code.DiffTree;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
 public class Plain {
 
     // Returns differences in plain format
-    public static String plain(Map<String, Object> map1, Map<String, Object> map2,
-                               Map<String, String> diffMap) throws IOException {
+    public static String plain(List<Map<String, Object>> diff) throws IOException {
 
         StringJoiner sj = new StringJoiner("\n");
 
-        for (Map.Entry<String, String> entry: diffMap.entrySet()) {
-            var key = entry.getKey();
-            var status = entry.getValue();
+        for (Map<String, Object> map: diff) {
 
-            if (status.equals(Differ.STATUS_NOT_CHANGED)) {
+            var status = map.get(DiffTree.KEY_STATUS).toString();
+            var key = map.get(DiffTree.KEY_NAME);
+            var value1 = map.get(DiffTree.KEY_VALUE1);
+            var value2 = map.get(DiffTree.KEY_VALUE2);
+
+            if (status.equals(DiffTree.STATUS_NOT_CHANGED)) {
                 continue;
             }
 
             switch (status) {
-                case Differ.STATUS_CHANGED -> {
-                    var value1 = toPlainValue(map1.get(key));
-                    var value2 = toPlainValue(map2.get(key));
-                    sj.add("Property '" + key + "' was updated. From " + value1 + " to " + value2);
+                case DiffTree.STATUS_CHANGED -> {
+                    var plainValue1 = toPlainValue(value1);
+                    var plainValue2 = toPlainValue(value2);
+                    sj.add("Property '" + key + "' was updated. From " + plainValue1 + " to " + plainValue2);
                 }
-                case Differ.STATUS_DELETED -> sj.add("Property '" + key + "' was removed");
-                case Differ.STATUS_ADDED -> {
-                    var value = toPlainValue(map2.get(key));
+                case DiffTree.STATUS_DELETED -> sj.add("Property '" + key + "' was removed");
+                case DiffTree.STATUS_ADDED -> {
+                    var value = toPlainValue(value1);
                     sj.add("Property '" + key + "' was added with value: " + value);
                 }
                 default -> throw new IOException("Unsupported status");

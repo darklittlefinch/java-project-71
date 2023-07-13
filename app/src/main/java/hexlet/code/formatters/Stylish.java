@@ -1,8 +1,9 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Differ;
+import hexlet.code.DiffTree;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -13,23 +14,24 @@ public class Stylish {
     private static final String SYMBOL_DELETED = "-";
 
     // Returns differences in stylish format
-    public static String stylish(Map<String, Object> map1, Map<String, Object> map2,
-                                 Map<String, String> diffMap) throws IOException {
+    public static String stylish(List<Map<String, Object>> diff) throws IOException {
 
         StringJoiner sj = new StringJoiner("\n  ", "{\n  ", "\n}");
 
-        for (Map.Entry<String, String> entry: diffMap.entrySet()) {
-            var key = entry.getKey();
-            var status = entry.getValue();
+        for (Map<String, Object> map: diff) {
+            var status = map.get(DiffTree.KEY_STATUS).toString();
+            var key = map.get(DiffTree.KEY_NAME);
+            var value1 = map.get(DiffTree.KEY_VALUE1);
+            var value2 = map.get(DiffTree.KEY_VALUE2);
 
             switch (status) {
-                case Differ.STATUS_NOT_CHANGED -> sj.add(SYMBOL_NOT_CHANGED + " " + key + ": " + map1.get(key));
-                case Differ.STATUS_CHANGED -> {
-                    sj.add(SYMBOL_DELETED + " " + key + ": " + map1.get(key));
-                    sj.add(SYMBOL_ADDED + " " + key + ": " + map2.get(key));
+                case DiffTree.STATUS_NOT_CHANGED -> sj.add(SYMBOL_NOT_CHANGED + " " + key + ": " + value1);
+                case DiffTree.STATUS_CHANGED -> {
+                    sj.add(SYMBOL_DELETED + " " + key + ": " + value1);
+                    sj.add(SYMBOL_ADDED + " " + key + ": " + value2);
                 }
-                case Differ.STATUS_DELETED -> sj.add(SYMBOL_DELETED + " " + key + ": " + map1.get(key));
-                case Differ.STATUS_ADDED -> sj.add(SYMBOL_ADDED + " " + key + ": " + map2.get(key));
+                case DiffTree.STATUS_DELETED -> sj.add(SYMBOL_DELETED + " " + key + ": " + value1);
+                case DiffTree.STATUS_ADDED -> sj.add(SYMBOL_ADDED + " " + key + ": " + value1);
                 default -> throw new IOException("Unsupported status");
             }
         }
