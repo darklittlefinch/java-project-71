@@ -28,6 +28,7 @@ public class Differ {
         return generate(fileName1, fileName2, Formatter.FORMAT_STYLISH);
     }
 
+    // Returns supported extension of specified filename or IOException
     public static String getFileExtension(String fileName) throws IOException {
         if (fileName.endsWith(Parser.JSON)) {
             return Parser.JSON;

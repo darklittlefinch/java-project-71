@@ -20,6 +20,7 @@ public class DiffTree {
 
     public static final String DEFAULT_MESSAGE = "This map doesn't have value with specified key";
 
+    //Returns list of maps of differences
     public static List<Map<String, Object>> genDiffTree(Map<String, Object> map1, Map<String, Object> map2) {
 
         List<String> allKeysSorted = getSortedKeysFromMaps(map1, map2);
@@ -50,6 +51,7 @@ public class DiffTree {
         return diffTree;
     }
 
+    // Returns one map of differences with one value
     public static Map<String, Object> getDiffMap(String status, String name, Object value1) {
 
         Map<String, Object> result = new HashMap<>();
@@ -65,6 +67,7 @@ public class DiffTree {
         return result;
     }
 
+    // Returns one map of differences with two values
     public static Map<String, Object> getDiffMap(String status, String name, Object value1, Object value2) {
 
         Map<String, Object> result = getDiffMap(status, name, value1);

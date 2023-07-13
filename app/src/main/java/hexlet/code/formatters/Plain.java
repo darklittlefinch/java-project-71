@@ -43,6 +43,7 @@ public class Plain {
         return sj.toString();
     }
 
+    // Returns formatted value in string
     public static String toPlainValue(Object value) {
 
         if (value == null) {
