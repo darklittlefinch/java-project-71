@@ -64,7 +64,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testGenerateJson() throws IOException {
+    public void testGenerateJsonStylishFormat() throws IOException {
 
         String expected = getContent(stylish);
         String actual = Differ.generate(fileJson1, fileJson2, Formatter.FORMAT_STYLISH);
@@ -72,7 +72,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testGenerateYml() throws IOException {
+    public void testGenerateYmlStylishFormat() throws IOException {
 
         String expected = getContent(stylish);
         String actual = Differ.generate(fileYaml1, fileYaml2, Formatter.FORMAT_STYLISH);
@@ -80,7 +80,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testGenerateDefaultFormat() throws IOException {
+    public void testGenerateJsonDefaultFormat() throws IOException {
 
         String expected = getContent(stylish);
         String actual = Differ.generate(fileJson1, fileJson2);
@@ -88,7 +88,15 @@ public class DifferTest {
     }
 
     @Test
-    public void testGeneratePlainFormat() throws IOException {
+    public void testGenerateYmlDefaultFormat() throws IOException {
+
+        String expected = getContent(stylish);
+        String actual = Differ.generate(fileYaml1, fileYaml2);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGenerateJsonPlainFormat() throws IOException {
 
         String expected = getContent(plain);
         String actual = Differ.generate(fileJson1, fileJson2, Formatter.FORMAT_PLAIN);
@@ -96,10 +104,26 @@ public class DifferTest {
     }
 
     @Test
-    public void testGenerateJsonFormat() throws IOException {
+    public void testGenerateYmlPlainFormat() throws IOException {
+
+        String expected = getContent(plain);
+        String actual = Differ.generate(fileYaml1, fileYaml2, Formatter.FORMAT_PLAIN);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGenerateJsonJsonFormat() throws IOException {
 
         String expected = getContent(json);
         String actual = Differ.generate(fileJson1, fileJson2, Formatter.FORMAT_JSON);
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGenerateYmlJsonFormat() throws IOException {
+
+        String expected = getContent(json);
+        String actual = Differ.generate(fileYaml1, fileYaml2, Formatter.FORMAT_JSON);
         assertThat(actual).isEqualTo(expected);
     }
 
