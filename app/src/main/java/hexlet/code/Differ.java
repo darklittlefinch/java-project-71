@@ -29,14 +29,9 @@ public class Differ {
     }
 
     // Returns supported extension of specified filename or IOException
-    public static String getFileExtension(String fileName) throws IOException {
-        if (fileName.endsWith(Parser.JSON)) {
-            return Parser.JSON;
-        } else if (fileName.endsWith(Parser.YAML) || fileName.endsWith(Parser.YML)) {
-            return Parser.YAML;
-        } else {
-            throw new IOException("Unsupported extension");
-        }
+    public static String getFileExtension(String fileName) {
+        String[] partsOfFileName = fileName.split("\\.");
+        return partsOfFileName[partsOfFileName.length - 1];
     }
 
     // Returns content of specified file
