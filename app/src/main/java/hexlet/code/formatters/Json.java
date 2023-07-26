@@ -2,14 +2,11 @@ package hexlet.code.formatters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import hexlet.code.DiffTree;
-
 import java.io.IOException;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+
 
 public class Json {
 
