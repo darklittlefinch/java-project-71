@@ -4,6 +4,17 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/6006c9bafc8e4166b302/maintainability)](https://codeclimate.com/github/darklittlefinch/java-project-71/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6006c9bafc8e4166b302/test_coverage)](https://codeclimate.com/github/darklittlefinch/java-project-71/test_coverage)
 
+# Difference Finder
+
+Difference Finder is a program that determines the difference between two data structures. 
+
+Utility features:
+
+* Supporting different input formats: yaml and json
+* Generation a report in the form of plain text, stylish and json
+
+You can see a few examples of using utility below. There are records that made in different stages of development.
+
 ### First rec
 [![asciicast](https://asciinema.org/a/FM9UN2gUrvLKqaEG3XqTuKerT.svg)](https://asciinema.org/a/FM9UN2gUrvLKqaEG3XqTuKerT)
 
